@@ -1,0 +1,40 @@
+<div class="marketing-analytics">
+  <div class="marketing-analytics-wrap area">
+
+    <!-- Marketing Analytics (aka Marketing Dashboard) filter -->
+    <app-user-filter (load)="load($event)"
+                     [showDidPay]="false"
+                     [showInstallDay]="false"
+                     [showRate]="false"
+                     [showMediaSource]="false"
+                     [showPlatform]="false"
+                     [showProfitLevel]="false"
+                     [showSkillTier]="false"
+                     [showExport]="false"
+                     [showTimeZone]="false"
+    ></app-user-filter>
+
+    <div *ngIf="!isFilterSubmitted" class="loader-wrap">
+      Please submit the filters to get cohort charts
+    </div>
+
+    <div *ngIf="this.userFilter.isLoadingResults" class="loader-wrap">
+      <mat-spinner class="loader"></mat-spinner>
+    </div>
+
+    <div class="charts" *ngIf="isFilterSubmitted && !this.userFilter.isLoadingResults">
+      <div *ngFor="let chart of charts" class="chart main-card">
+        <h3 class="chart-label">{{chart.options.name}}</h3>
+        <canvas baseChart
+                [datasets]="chart.options.datasets"
+                [labels]="chart.options.labels"
+                [options]="chart.options.options"
+                [legend]="chart.options.legend"
+                [colors]="chart.options.colors"
+                [chartType]="chart.options.chartType">
+        </canvas>
+      </div>
+    </div>
+
+  </div>
+</div>
